@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+VERSION=0.5.11
+
+AMD64_DIGEST=$(curl -sLo - "https://github.com/astral-sh/uv/releases/download/${VERSION}/uv-x86_64-unknown-linux-gnu.tar.gz.sha256" | cut -d' ' -f1)
+ARM64_DIGEST=$(curl -sLo - "https://github.com/astral-sh/uv/releases/download/${VERSION}/uv-aarch64-unknown-linux-gnu.tar.gz.sha256" | cut -d' ' -f1)
+
+cat<<EOF > SHA256SUM
+${AMD64_DIGEST}  tmp/amd64.tar.gz
+${ARM64_DIGEST}  tmp/arm64.tar.gz
+EOF

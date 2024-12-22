@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -ex
+
+NFPM_VERSION=$(grep NFPM_VERSION Dockerfile | cut -d= -f2)
+NFPM_CHECKSUM=$(grep NFPM_CHECKSUM Dockerfile | cut -d= -f2)
+
+curl -o nfpm.tar.gz -L https://github.com/goreleaser/nfpm/releases/download/${NFPM_VERSION}/nfpm_${NFPM_VERSION#v}_Linux_x86_64.tar.gz
+echo "$NFPM_CHECKSUM  nfpm.tar.gz" | sha512sum -c -
+tar -xzf nfpm.tar.gz -C /usr/local/bin nfpm

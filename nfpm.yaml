@@ -1,0 +1,9 @@
+name: uv
+arch: ARCH
+version: VERSION
+maintainer: thepwagner <1559510+thepwagner@users.noreply.github.com>
+epoch: 2
+
+contents:
+  - src: tmp/ARCH/uv
+    dst: /usr/local/bin/uv
