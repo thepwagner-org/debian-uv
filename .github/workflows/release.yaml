@@ -1,0 +1,34 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions: {}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - name: "🌎 Fetching code"
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: "🌎 Setup nfpm"
+        run: script/setup-nfpm
+
+      - name: "🚧 Building"
+        run: make -j$(nproc)
+
+      - name: "🔏 Signing (GitHub)"
+        uses: actions/attest-build-provenance@619dbb2e03e0189af0c55118e7d3c5e129e99726 # v2.0.0
+        with:
+          subject-path: "output/*.deb"
+      - name: "📦 Upload to release"
+        uses: softprops/action-gh-release@01570a1f39cb168c169c802c3bceb9e93fb10974 # v2.1.0
+        with:
+          files: output/*

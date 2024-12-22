@@ -1,5 +1,5 @@
 # Extract version from Dockerfile, removing the 'v' prefix
-VERSION=0.5.11
+VERSION := $(shell grep "FROM ghcr.io/astral-sh/uv:" Dockerfile | cut -d: -f2 | cut -d@ -f1)
 
 ARCH ?= amd64
 ARCHITECTURES := amd64 arm64
